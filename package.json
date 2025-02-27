@@ -24,67 +24,36 @@
   "contributes": {
     "commands": [
       {
-        "command": "deepseek.generateMermaidDiagramFromSelection",
-        "title": "Generate Mermaid Diagram (Selection)"
-      },
-      {
-        "command": "deepseek.generateMermaidDiagram",
-        "title": "Generate Mermaid Diagram"
+        "command": "tinify.compressImages",
+        "title": "Tinify Compress Images"
       }
     ],
     "menus": {
-      "editor/context": [
-        {
-          "command": "deepseek.generateMermaidDiagramFromSelection",
-          "group": "mermaidDeepSeek",
-          "when": "editorTextFocus"
-        }
-      ],
       "explorer/context": [
         {
-          "command": "deepseek.generateMermaidDiagram",
-          "group": "mermaidDeepSeek"
+          "command": "tinify.compressImages",
+          "group": "tinify"
         }
       ]
     },
     "configuration": {
-      "title": "Mermaid DeepSeek Diagram Generator",
+      "title": "Tinify Compress Images",
       "properties": {
-        "mermaidDeepseek.openaiBaseUrl": {
+        "tinify.apiKey": {
           "type": "string",
-          "default": "https://api.deepseek.com/v1",
-          "description": "Base URL for DeepSeek API."
-        },
-        "mermaidDeepseek.openaiKey": {
-          "type": "string",
-          "description": "API Key for DeepSeek API."
-        },
-        "mermaidDeepseek.openaiModel": {
-          "type": "string",
-          "default": "deepseek-chat",
-          "description": "Model to use for DeepSeek API."
-        },
-        "mermaidDeepSeek.temperature": {
-          "type": "number",
-          "default": 0.1,
-          "description": "Temperature for DeepSeek API."
-        },
-        "mermaidDeepseek.deepseekPrompt": {
-          "type": "string",
-          "description": "Prompt for DeepSeek to generate Mermaid code."
+          "description": "API Key for TinyPNG."
         }
       }
     }
   },
   "scripts": {
-    "compile": "vite build && npm run copy-webview && npm run copy-assets",
+    "compile": "vite build && npm run copy-webview",
     "compile:pack": "npm run compile && vsce package -o dist/tinify-compress-image.vsix --no-dependencies",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test",
-    "copy-webview": "cp src/webview-content.html dist/extension/",
-    "copy-assets": "rm -rf dist/extension/assets && cp -r src/assets dist/extension/"
+    "copy-webview": "cp src/webview-content.html dist/extension/"
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "^2.5.5",
@@ -105,12 +74,11 @@
     "eslint": "^9.19.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "repomix": "^0.2.26",
     "typescript": "^5.7.3",
     "vite": "^5.4.0",
     "vite-tsconfig-paths": "^5.0.1"
   },
   "dependencies": {
-    "openai": "^4.24.1"
+    "tinify": "^1.8.0"
   }
 }
