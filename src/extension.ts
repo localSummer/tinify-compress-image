@@ -73,9 +73,12 @@ async function compressImages(
     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg') {
       try {
         const source = tinify.fromFile(filePath);
-        await source.toFile(filePath);
+        const parsedPath = path.parse(filePath);
+        const compressedFileName = `${parsedPath.name}-compressed${parsedPath.ext}`;
+        const compressedFilePath = path.join(parsedPath.dir, compressedFileName);
+        await source.toFile(compressedFilePath);
         vscode.window.showInformationMessage(
-          `Image compressed successfully: ${filePath}`
+          `Image compressed successfully: ${compressedFilePath}`
         );
       } catch (error: any) {
         vscode.window.showErrorMessage(
