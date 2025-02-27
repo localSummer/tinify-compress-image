@@ -54,7 +54,50 @@ async function compressImages(
   absoluteFileOrFolders: string[],
   workspacePath: string
 ) {
-  
+  for (const fileOrFolder of absoluteFileOrFolders) {
+    await processFileOrFolder(fileOrFolder);
+  }
+
+  async function processFileOrFolder(fileOrFolder: string) {
+    const stats = await vscode.workspace.fs.stat(vscode.Uri.file(fileOrFolder));
+
+    if (stats.type === vscode.FileType.File) {
+      await compressSingleFile(fileOrFolder);
+    } else if (stats.type === vscode.FileType.Directory) {
+      await processDirectory(fileOrFolder);
+    }
+  }
+
+  async function compressSingleFile(filePath: string) {
+    const ext = path.extname(filePath).toLowerCase();
+    if (ext === '.png' || ext === '.jpg' || ext === '.jpeg') {
+      try {
+        const source = tinify.fromFile(filePath);
+        await source.toFile(filePath);
+        vscode.window.showInformationMessage(
+          `Image compressed successfully: ${filePath}`
+        );
+      } catch (error: any) {
+        vscode.window.showErrorMessage(
+          `Error compressing image ${filePath}: ${error.message}`
+        );
+      }
+    }
+  }
+
+  async function processDirectory(dirPath: string) {
+    const files = await vscode.workspace.fs.readDirectory(
+      vscode.Uri.file(dirPath)
+    );
+    for (const [fileName, fileType] of files) {
+      const fullPath = path.join(dirPath, fileName);
+      if (fileType === vscode.FileType.File) {
+        await compressSingleFile(fullPath);
+      } else if (fileType === vscode.FileType.Directory) {
+        await processDirectory(fullPath); // 递归处理子目录
+      }
+    }
+  }
 }
   
 
