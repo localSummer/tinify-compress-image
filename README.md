@@ -21,7 +21,7 @@
 
 在VS Code设置中配置以下参数：
 
-- `tinify.key`: tinify密钥
+- `tinify.apiKey`: tinify密钥
   - 必须配置项
 
 ## 使用方法
@@ -33,7 +33,7 @@
 
 ## 注意事项
 
-- 使用前请确保已正确配置 `tinify.key`
+- 使用前请确保已正确配置 `tinify.apiKey`
 
 ## 许可证
 

@@ -3,7 +3,7 @@
   "name": "tinify-compress-image",
   "displayName": "tinify-compress-image",
   "description": "图片压缩工具",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "packageManager": "npm@10.5.0",
   "author": "localSummer <roamingcode@163.com>",
   "engines": {
@@ -47,13 +47,12 @@
     }
   },
   "scripts": {
-    "compile": "vite build && npm run copy-webview",
+    "compile": "vite build",
     "compile:pack": "npm run compile && vsce package -o dist/tinify-compress-image.vsix --no-dependencies",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test",
-    "copy-webview": "cp src/webview-content.html dist/extension/"
+    "test": "vscode-test"
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "^2.5.5",
