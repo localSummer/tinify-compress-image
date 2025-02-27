@@ -1,6 +1,8 @@
 # Tinify Compress Image
 
-图片压缩工具
+TinyPNG 图片压缩工具，可一键生成压缩后的图片。
+
+> apiKey 申请地址：[https://tinify.cn/developers](https://tinify.cn/developers)
 
 ## 功能特点
 
@@ -22,7 +24,7 @@
 在VS Code设置中配置以下参数：
 
 - `tinify.apiKey`: tinify密钥
-  - 必须配置项
+  - 必须配置项，apiKey 申请地址：[https://tinify.cn/developers](https://tinify.cn/developers)
 
 ## 使用方法
 
