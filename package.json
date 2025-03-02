@@ -3,7 +3,7 @@
   "name": "tinify-compress-image",
   "displayName": "TinyPNG Compress",
   "description": "图片压缩工具",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "packageManager": "npm@10.5.0",
   "author": "localSummer <roamingcode@163.com>",
   "engines": {

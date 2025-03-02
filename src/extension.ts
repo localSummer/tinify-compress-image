@@ -74,9 +74,9 @@ async function compressImages(
       try {
         const selection = await vscode.window.showQuickPick(
           [
-            { label: '替换原文件', description: '压缩后的文件将覆盖原文件' },
+            { label: 'REPLACE', description: '压缩后的文件将覆盖原文件' },
             {
-              label: '创建新文件',
+              label: 'NEW',
               description: '将创建一个带有"-compressed"后缀的新文件',
             },
           ],
@@ -88,7 +88,7 @@ async function compressImages(
           return;
         }
 
-        const replaceOriginal = selection.label === '替换原文件';
+        const replaceOriginal = selection.label === 'REPLACE';
         const source = tinify.fromFile(filePath);
         const parsedPath = path.parse(filePath);
 
