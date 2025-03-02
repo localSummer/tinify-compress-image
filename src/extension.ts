@@ -16,7 +16,6 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
-
 async function compressFromFileOrFolder(
   uri: vscode.Uri,
   selectedUris: vscode.Uri[],
@@ -24,7 +23,9 @@ async function compressFromFileOrFolder(
 ) {
   const workspaceFolder = vscode.workspace.getWorkspaceFolder(uri);
   if (!workspaceFolder) {
-    vscode.window.showErrorMessage('No workspace found for the selected file or folder.');
+    vscode.window.showErrorMessage(
+      'No workspace found for the selected file or folder.'
+    );
     throw new Error('No workspace found for the selected file or folder.');
   }
 
@@ -49,7 +50,6 @@ async function compressFromFileOrFolder(
   }
 }
 
-
 async function compressImages(
   absoluteFileOrFolders: string[],
   workspacePath: string
@@ -72,19 +72,48 @@ async function compressImages(
     const ext = path.extname(filePath).toLowerCase();
     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg') {
       try {
+        const selection = await vscode.window.showQuickPick(
+          [
+            { label: '替换原文件', description: '压缩后的文件将覆盖原文件' },
+            {
+              label: '创建新文件',
+              description: '将创建一个带有"-compressed"后缀的新文件',
+            },
+          ],
+          { placeHolder: '请选择压缩后的文件保存方式' }
+        );
+
+        if (!selection) {
+          // 用户取消了操作
+          return;
+        }
+
+        const replaceOriginal = selection.label === '替换原文件';
         const source = tinify.fromFile(filePath);
         const parsedPath = path.parse(filePath);
-        const compressedFileName = `${parsedPath.name}-compressed${parsedPath.ext}`;
-        const compressedFilePath = path.join(parsedPath.dir, compressedFileName);
-        await source.toFile(compressedFilePath);
+
+        // 根据用户选择决定目标路径
+        let targetPath: string;
+        if (replaceOriginal) {
+          targetPath = filePath;
+        } else {
+          const compressedFileName = `${parsedPath.name}-compressed${parsedPath.ext}`;
+          targetPath = path.join(parsedPath.dir, compressedFileName);
+        }
+
+        await source.toFile(targetPath);
         vscode.window.showInformationMessage(
-          `Image compressed successfully: ${compressedFilePath}`
+          `Image compressed successfully: ${targetPath}`
         );
       } catch (error: any) {
         vscode.window.showErrorMessage(
           `Error compressing image ${filePath}: ${error.message}`
         );
       }
+    } else {
+      vscode.window.showWarningMessage(
+        `File ${filePath} is not a supported image file.`
+      );
     }
   }
 
@@ -102,6 +131,5 @@ async function compressImages(
     }
   }
 }
-  
 
-export function deactivate() { }
+export function deactivate() {}
